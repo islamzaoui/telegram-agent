@@ -7,6 +7,8 @@
 	"scripts": {
 		"prepare": "husky",
 		"dev": "bun --watch src/index.ts",
+		"build": "bunup",
+		"start": "bun dist/index.js",
 		"typecheck": "tsc --noEmit",
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",
@@ -27,6 +29,7 @@
 	"devDependencies": {
 		"@antfu/eslint-config": "^6.0.0",
 		"@types/bun": "latest",
+		"bunup": "^0.15.3",
 		"eslint": "^9.37.0",
 		"eslint-config-prettier": "^10.1.8",
 		"husky": "^9.1.7",

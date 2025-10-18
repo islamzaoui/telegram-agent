@@ -7,7 +7,11 @@ const envSchema = z.object({
 	GEMINI_API_KEY: z.string(),
 });
 
-const { data: env, error } = envSchema.safeParse(Bun.env);
+const { data: env, error } = envSchema.safeParse({
+	NODE_ENV: Bun.env.NODE_ENV,
+	TELEGRAM_BOT_TOKEN: Bun.env.TELEGRAM_BOT_TOKEN,
+	GEMINI_API_KEY: Bun.env.GEMINI_API_KEY,
+});
 
 if (error) {
 	console.error(`❌ Invalid env: ${JSON.stringify(z.flattenError(error).fieldErrors, null, 2)}`);
