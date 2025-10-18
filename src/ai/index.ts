@@ -72,7 +72,7 @@ export async function chatAgent(input: ChatAgentInput) {
 			],
 			model,
 			system: LARRY_SYSTEM_PROMPT,
-			stopWhen: stepCountIs(5),
+			stopWhen: stepCountIs(10),
 			tools: {
 				sendMessageTool: sendMessageTool(input.chatId),
 			},

@@ -22,7 +22,18 @@ export function sendMessageTool(chatId: number) {
 		execute: async ({ message }) => {
 			try {
 				logger.info({ chatId }, 'Agent trying to send message...');
-				await sendMessage({ chatId, message });
+
+				const MAX_LENGTH = 4096;
+				const chunks = [];
+
+				for (let i = 0; i < message.length; i += MAX_LENGTH) {
+					chunks.push(message.slice(i, i + MAX_LENGTH));
+				}
+
+				for (const chunk of chunks) {
+					await sendMessage({ chatId, message: chunk });
+				}
+
 				logger.info({ chatId }, 'Agent successfully sent message.');
 				return `Message sent successfully.`;
 			} catch (err) {
