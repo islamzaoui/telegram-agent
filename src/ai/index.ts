@@ -1,0 +1,34 @@
+import type { User } from 'gramio';
+
+import { createGoogleGenerativeAI } from '@ai-sdk/google';
+import { generateText } from 'ai';
+
+import env from '@/env';
+
+import { sendMessageTool } from './tools/send-message.tool';
+
+const google = createGoogleGenerativeAI({
+	apiKey: env.GEMINI_API_KEY,
+});
+
+const model = google('gemini-2.5-flash');
+
+export interface ChatAgentInput {
+	chatId: number;
+	user: User;
+	message: string;
+}
+
+function inputToPrompt({ chatId, user, message }: ChatAgentInput) {
+	return `user ${user.firstName} with id ${user.id} in chat ${chatId} said: ${message}`;
+}
+
+export async function chatAgent(input: ChatAgentInput) {
+	await generateText({
+		prompt: inputToPrompt(input),
+		model,
+		tools: {
+			sendMessageTool,
+		},
+	});
+}
