@@ -3,8 +3,8 @@ import type { User } from 'gramio';
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { generateText, stepCountIs } from 'ai';
 
-import bot from '@/bot';
 import env from '@/env';
+import { sendMessage } from '@/utils/bot-send';
 
 import { LARRY_SYSTEM_PROMPT } from './system';
 import { sendMessageTool } from './tools/send-message.tool';
@@ -38,9 +38,9 @@ export async function chatAgent(input: ChatAgentInput) {
 			},
 		});
 	} catch {
-		await bot.api.sendMessage({
-			chat_id: input.chatId,
-			text: 'Larry is currently unavailable, please try again later.',
+		await sendMessage({
+			chatId: input.chatId,
+			message: 'Larry is currently unavailable, please try again later.',
 		});
 	}
 }
