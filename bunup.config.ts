@@ -12,7 +12,7 @@ const entry = [
 export default defineConfig({
 	entry,
 	outDir: 'dist',
-	sourcemap: 'linked',
+	sourcemap: 'external',
 	format: 'esm',
 	target: 'bun',
 	dts: false,

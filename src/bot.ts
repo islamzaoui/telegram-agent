@@ -1,9 +1,9 @@
 import { Bot } from 'gramio';
 
 import env from '@/env';
-import { logger } from '@/lib/logger';
+import logger from '@/lib/logger';
 import isAllowedTag from '@/utils/allowed-tags';
-import { selectBestPhoto } from '@/utils/files';
+import filesUtils from '@/utils/files';
 
 import { chatAgent } from './ai';
 
@@ -13,7 +13,7 @@ bot.hears(/(.*)/, async (c) => {
 	if (c.args && c.args.input && isAllowedTag(c.args.input)) {
 		logger.info({ chatId: c.chat.id, username: c.from.username }, 'Chat message received');
 
-		const photo = c.photo ? selectBestPhoto(c.photo) : undefined;
+		const photo = c.photo ? filesUtils.selectBestPhoto(c.photo) : undefined;
 		await chatAgent({
 			chatId: c.chat.id,
 			user: c.from,

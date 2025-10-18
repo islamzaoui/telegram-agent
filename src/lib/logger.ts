@@ -11,7 +11,7 @@ const prettyOptions: PrettyOptions = {
 	ignore: 'pid,hostname',
 };
 
-export const logger = pino(
+export default pino(
 	{
 		level: 'debug',
 	},

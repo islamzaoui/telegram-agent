@@ -1,7 +1,7 @@
 import process from 'node:process';
 
 import bot from '@/bot';
-import { logger } from '@/lib/logger';
+import logger from '@/lib/logger';
 
 bot.start();
 

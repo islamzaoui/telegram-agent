@@ -1,8 +1,8 @@
 import { tool } from 'ai';
 import z from 'zod';
 
-import { logger } from '@/lib/logger';
-import { sendMessage } from '@/utils/bot-send';
+import logger from '@/lib/logger';
+import botSendUtils from '@/utils/bot-send';
 
 const inputSchema = z.object({
 	message: z.string().describe('The message to send'),
@@ -13,7 +13,7 @@ const outputSchema = z.union([
 	z.literal('Failed to send message.'),
 ]);
 
-export function sendMessageTool(chatId: number) {
+export default function sendMessageTool(chatId: number) {
 	return tool({
 		name: 'send_message',
 		description: 'Send a message to a user',
@@ -31,7 +31,7 @@ export function sendMessageTool(chatId: number) {
 				}
 
 				for (const chunk of chunks) {
-					await sendMessage({ chatId, message: chunk });
+					await botSendUtils.sendMessage({ chatId, message: chunk });
 				}
 
 				logger.info({ chatId }, 'Agent successfully sent message.');

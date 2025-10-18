@@ -7,7 +7,7 @@ interface SendMessageArgs {
 	message: string;
 }
 
-export async function sendMessage({ chatId, message }: SendMessageArgs) {
+async function sendMessage({ chatId, message }: SendMessageArgs) {
 	await withRetries(() =>
 		bot.api.sendMessage({
 			suppress: true,
@@ -16,3 +16,5 @@ export async function sendMessage({ chatId, message }: SendMessageArgs) {
 		})
 	);
 }
+
+export default { sendMessage };

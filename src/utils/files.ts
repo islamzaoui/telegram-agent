@@ -1,7 +1,7 @@
 import type { PhotoSize } from 'gramio';
 
 import env from '@/env';
-import { logger } from '@/lib/logger';
+import logger from '@/lib/logger';
 
 interface TelegramFileResponse {
 	ok: boolean;
@@ -14,7 +14,7 @@ interface TelegramFileResponse {
 	description?: string;
 }
 
-export async function getFileURL(fileId: string): Promise<URL> {
+async function getFileURL(fileId: string): Promise<URL> {
 	const response = await fetch(
 		`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/getFile?file_id=${fileId}`
 	);
@@ -30,6 +30,8 @@ export async function getFileURL(fileId: string): Promise<URL> {
 	return url;
 }
 
-export function selectBestPhoto(photo: PhotoSize[]): PhotoSize | undefined {
+function selectBestPhoto(photo: PhotoSize[]): PhotoSize | undefined {
 	return photo.reduce((prev, curr) => ((prev.fileSize ?? 0) > (curr.fileSize ?? 0) ? prev : curr));
 }
+
+export default { getFileURL, selectBestPhoto };

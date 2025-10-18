@@ -5,12 +5,12 @@ import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { generateText, stepCountIs } from 'ai';
 
 import env from '@/env';
-import { logger } from '@/lib/logger';
-import { sendMessage } from '@/utils/bot-send';
-import { getFileURL } from '@/utils/files';
+import logger from '@/lib/logger';
+import botSendUtils from '@/utils/bot-send';
+import filesUtils from '@/utils/files';
 
-import { LARRY_SYSTEM_PROMPT } from './system';
-import { sendMessageTool } from './tools/send-message.tool';
+import LARRY_SYSTEM_PROMPT from './system';
+import sendMessageTool from './tools/send-message.tool';
 
 const google = createGoogleGenerativeAI({
 	apiKey: env.GEMINI_API_KEY,
@@ -40,7 +40,7 @@ async function photosToImagePart({ photo }: ChatAgentInput): Promise<ImagePart[]
 	return [
 		{
 			type: 'image',
-			image: await getFileURL(photo.fileId),
+			image: await filesUtils.getFileURL(photo.fileId),
 		},
 	];
 }
@@ -51,7 +51,7 @@ async function documentToFilePart({ document }: ChatAgentInput): Promise<FilePar
 	return [
 		{
 			type: 'file',
-			data: await getFileURL(document.fileId),
+			data: await filesUtils.getFileURL(document.fileId),
 			mediaType: document.mimeType ?? 'application/octet-stream',
 		},
 	];
@@ -80,7 +80,7 @@ export async function chatAgent(input: ChatAgentInput) {
 	} catch (err) {
 		logger.error({ err }, 'Failed to generate response');
 
-		sendMessage({
+		botSendUtils.sendMessage({
 			chatId: input.chatId,
 			message: 'Larry is currently unavailable, please try again later.',
 		});
